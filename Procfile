@@ -1,1 +1,1 @@
-worker: python my_test.py --log-file -
+web: python echoserver.py --log-file -
