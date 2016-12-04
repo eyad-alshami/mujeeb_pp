@@ -16,4 +16,4 @@ if __name__=="__main__":
 	input = [text]
 	result = translation_api.translation_text_translate_get(source= source, target = target, input = input)
 
-	print result.outputs[0].output
+	print unicode(result.outputs[0].output, "utf-8")
