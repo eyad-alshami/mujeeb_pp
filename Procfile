@@ -1,1 +1,1 @@
-web: python echoserver.py --log-file -
+web: gunicorn app:app --log-file=-
