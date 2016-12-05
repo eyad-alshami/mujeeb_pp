@@ -40,7 +40,11 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the 
                     
-                    send_message(sender_id, message_text)
+                    result = translate(message_text)
+                    if result:
+                    	send_message(sender_id, result)
+                    else:
+                    	send_message(sender_id, message_text)
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
@@ -78,6 +82,24 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
+def translate(msg):
+	api_key_file = r'api_key.txt'
+	systran_translation_api.configuration.load_api_key(api_key_file)
+	api_client = systran_translation_api.ApiClient()
+	translation_api = systran_translation_api.TranslationApi(api_client)
+
+	source = "en"
+	target = "ar"
+	text = "how are you"
+	if translation_api is not None:
+		input = [text]
+		result = translation_api.translation_text_translate_get(source= source, target = target, input = input)
+		return result.outputs[0].output
+	else:
+		log("++++++++++++++++++++++")
+		log("API is not valid")
+		log("++++++++++++++++++++++")
+		return None
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
