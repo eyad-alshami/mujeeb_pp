@@ -88,11 +88,11 @@ def translate(msg):
 	api_client = systran_translation_api.ApiClient()
 	translation_api = systran_translation_api.TranslationApi(api_client)
 
-	#source = "en"
+	source = "ar"
 	target = "en"
 	if translation_api is not None:
-		input = [msg.encode("utf-8")]
-		result = translation_api.translation_text_translate_get( target = target, input = input)
+		input = [msg]
+		result = translation_api.translation_text_translate_get(target = source, target = target, input = input)
 		return result.outputs[0].output
 	else:
 		log("++++++++++++++++++++++")
