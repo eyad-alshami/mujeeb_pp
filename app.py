@@ -50,7 +50,7 @@ def webhook():
                     #message_text = result.outputs[0].output
                     else:
                     	log("api object is not None")
-                    	result = translation_api.translation_text_translate_get(source = "ar", target = "en", input = [message_text])
+                    	result = translation_api.translation_text_translate_get(source = "ar", target = "en", input = [message_text.encode("utf-8")])
                     	log(result.outputs[0].output)
                     	send_message(sender_id, message_text)
 

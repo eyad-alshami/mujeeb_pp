@@ -9,3 +9,6 @@ requests==2.10.0
 wsgiref==0.1.2
 
 git+git://github.com/SYSTRAN/translation-api-python-client.git
+urllib3 >= 1.10
+six >= 1.9
+certifi
