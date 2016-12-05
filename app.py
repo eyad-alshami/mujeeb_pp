@@ -93,5 +93,5 @@ def initialize_tra():
 	translation_api = systran_translation_api.TranslationApi(api_client)
 
 if __name__ == '__main__':
-	initialize_tra()
+    initialize_tra()
     app.run(debug=True)
