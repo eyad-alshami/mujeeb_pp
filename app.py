@@ -44,7 +44,7 @@ def webhook():
                     systran_translation_api.configuration.load_api_key(api_key_file)
                     api_client = systran_translation_api.ApiClient()
                     translation_api = systran_translation_api.TranslationApi(api_client)
-                    result = translation_api.translation_text_translate_get(target = "en", input = [message_text])
+                    result = translation_api.translation_text_translate_get(target = "en", input = message_text)
                     message_text = result.outputs[0].output
                     
                     send_message(sender_id, message_text)
