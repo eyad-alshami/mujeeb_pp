@@ -92,6 +92,7 @@ def initialize_tra():
 	systran_translation_api.configuration.load_api_key(api_key_file)
 	api_client = systran_translation_api.ApiClient()
 	translation_api = systran_translation_api.TranslationApi(api_client)
+	log("after initializing tra\n")
 
 if __name__ == '__main__':
     initialize_tra()
