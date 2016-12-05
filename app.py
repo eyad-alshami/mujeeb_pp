@@ -46,7 +46,7 @@ def webhook():
                     translation_api = systran_translation_api.TranslationApi(api_client)
                     result = translation_api.translation_text_translate_get(target = "en", input = [message_text])
                     message_text = result.outputs[0].output
-                    log(message_text)
+                    
                     send_message(sender_id, message_text)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
@@ -63,7 +63,7 @@ def webhook():
 
 def send_message(recipient_id, message_text):
 
-    #log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
