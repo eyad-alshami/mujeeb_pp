@@ -38,20 +38,9 @@ def webhook():
 
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    message_text = messaging_event["message"]["text"]  # the message's text
+                    message_text = messaging_event["message"]["text"]  # the 
                     
-                    api_key_file = r'api_key.txt'
-                    systran_translation_api.configuration.load_api_key(api_key_file)
-                    api_client = systran_translation_api.ApiClient()
-                    translation_api = systran_translation_api.TranslationApi(api_client)
-                    if translation_api is None:
-                    	send_message(sender_id, u"invalid API")
-                    #result = translation_api.translation_text_translate_get(target = "en", input = [message_text])
-                    #message_text = result.outputs[0].output
-                    else:
-                    	log("api object is not None")
-                    	#result = translation_api.translation_text_translate_get(source = "ar", target = "en", input = [message_text.encode("utf-8")])
-                    	send_message(sender_id, message_text)
+                    send_message(sender_id, message_text)
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
@@ -93,14 +82,6 @@ def send_message(recipient_id, message_text):
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
     sys.stdout.flush()
-
-def initialize_tra():
-	global translation_api
-	api_key_file = r'api_key.txt'
-	systran_translation_api.configuration.load_api_key(api_key_file)
-	api_client = systran_translation_api.ApiClient()
-	translation_api = systran_translation_api.TranslationApi(api_client)
-	log("after initializing tra\n")
 
 if __name__ == '__main__':
     app.run(debug=True)
