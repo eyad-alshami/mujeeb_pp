@@ -43,8 +43,10 @@ def webhook():
                     if translation_api:
                     	result = translation_api.translation_text_translate_get(target = "en", input = [message_text])
                     	message_text = result.outputs[0].output
-                    	log("translation\n")
-                    send_message(sender_id, message_text)
+                    	log(message_text)
+                    	send_message(sender_id, message_text)
+                    else:
+                    	send_message(sender_id, "Not valid")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
