@@ -94,7 +94,7 @@ def translate(msg):
 		log("+++++++++++++++++++++++++")
 		log(type(msg))
 		log("+++++++++++++++++++++++++")
-		result = translation_api.translation_text_translate_get( target = target, input = msg)
+		result = translation_api.translation_text_translate_get( target = target, input = [msg])
 		return result.outputs[0].output
 	else:
 		log("++++++++++++++++++++++")
