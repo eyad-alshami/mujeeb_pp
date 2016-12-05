@@ -92,7 +92,7 @@ def translate(msg):
 	target = "ar"
 	text = "how are you"
 	if translation_api is not None:
-		input = [msg]
+		input = [msg..encode("utf-8")]
 		result = translation_api.translation_text_translate_get(source= source, target = target, input = input)
 		return result.outputs[0].output
 	else:
