@@ -92,7 +92,7 @@ def translate(msg):
 	target = "en"
 	if translation_api is not None:
 		input = [msg]
-		result = translation_api.translation_text_translate_get(target = source, target = target, input = input)
+		result = translation_api.translation_text_translate_get(source = source, target = target, input = input)
 		return result.outputs[0].output
 	else:
 		log("++++++++++++++++++++++")
