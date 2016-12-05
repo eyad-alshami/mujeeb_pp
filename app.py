@@ -91,7 +91,10 @@ def translate(msg):
 	source = "ar"
 	target = "en"
 	if translation_api is not None:
-		input = [msg]
+		log("+++++++++++++++++++++++++")
+		log(type(msg))
+		log("+++++++++++++++++++++++++")
+		input = ["أنا إياد"]
 		result = translation_api.translation_text_translate_get(source = source, target = target, input = input)
 		return result.outputs[0].output
 	else:
