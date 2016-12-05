@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import os
 import sys
 import json
@@ -88,12 +89,12 @@ def translate(msg):
 	api_client = systran_translation_api.ApiClient()
 	translation_api = systran_translation_api.TranslationApi(api_client)
 
-	target = "ar"
+	target = "en"
 	if translation_api is not None:
 		log("+++++++++++++++++++++++++")
 		log(type(msg))
 		log("+++++++++++++++++++++++++")
-		input = ["is it raining now?"]
+		input = ["أنا ألعب كرة القدم"]
 		result = translation_api.translation_text_translate_get( target = target, input = input)
 		return result.outputs[0].output
 	else:
