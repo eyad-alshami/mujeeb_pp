@@ -54,7 +54,7 @@ def webhook():
                     	log("++++++++++++++++++++++++++++++++++")
                     	log(type(message_text.encode("utf-8")))
                     	log("++++++++++++++++++++++++++++++++++")
-                    	send_message(sender_id, message_text)
+                    	send_message(sender_id, message_text.decode("utf-8"))
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
