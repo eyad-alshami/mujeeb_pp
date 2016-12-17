@@ -59,7 +59,7 @@ def webhook():
                         if jobject["result"]['action'] == u'input.unknown':
                             result = translate(jobject["result"]['fulfillment']['speech'], target="ar")
                         else:
-                    	   send_message(sender_id, translate(d["result"]['fulfillment']['messages'][0]['speech'] ,target="ar"))
+                    	   send_message(sender_id, translate(jobject["result"]['fulfillment']['messages'][0]['speech'] ,target="ar"))
                     else:
                     	send_message(sender_id, message_text)
 
