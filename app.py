@@ -41,7 +41,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the 
                     
-                    result = translate(message_text)
+                    result = translate(message_text,target="en")
                     if result:
                     	send_message(sender_id, result)
                     else:
@@ -83,24 +83,60 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-def translate(msg):
-	api_key_file = r'api_key.txt'
-	systran_translation_api.configuration.load_api_key(api_key_file)
-	api_client = systran_translation_api.ApiClient()
-	translation_api = systran_translation_api.TranslationApi(api_client)
+# def translate(msg):
+# 	api_key_file = r'api_key.txt'
+# 	systran_translation_api.configuration.load_api_key(api_key_file)
+# 	api_client = systran_translation_api.ApiClient()
+# 	translation_api = systran_translation_api.TranslationApi(api_client)
 
-	target = "en"
-	if translation_api is not None:
-		log("+++++++++++++++++++++++++")
-		log(type(msg))
-		log("+++++++++++++++++++++++++")
-		result = translation_api.translation_text_translate_get( target = target, input = msg.encode("utf-8"))
-		return result.outputs[0].output
-	else:
-		log("++++++++++++++++++++++")
-		log("API is not valid")
-		log("++++++++++++++++++++++")
-		return None
+# 	target = "en"
+# 	if translation_api is not None:
+# 		log("+++++++++++++++++++++++++")
+# 		log(type(msg))
+# 		log("+++++++++++++++++++++++++")
+# 		result = translation_api.translation_text_translate_get( target = target, input = msg.encode("utf-8"))
+# 		return result.outputs[0].output
+# 	else:
+# 		log("++++++++++++++++++++++")
+# 		log("API is not valid")
+# 		log("++++++++++++++++++++++")
+# 		return None
+
+def translate(text, source, target): # source & target are either ar, en or en, ar
+
+    cookies = {
+        'lang': 'en',
+        'ses.sid': 's%3AYdbLoHsjRfk-jjm7PT-2PWg-5GH-NqDA.ygY0JWmQZqmoorUsKvKRwUTHGKttwDIMLaADn%2BjarYc',
+    }
+
+    headers = {
+        'Host': 'demo-pnmt.systran.net',
+        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0',
+        'Accept': '*/*',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-CSRF-Token': 'ZwbOllxv-0rcXInYO9RBpIdwPwFVlL1C0NP8',
+        'x-user-agent': 'Translation Box',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Referer': 'https://demo-pnmt.systran.net/production',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
+    data = {
+      'input': text,
+      'source': source,
+      'target': target,
+      'owner': 'Systran',
+      'domain': 'Generic',
+      'size': 'M'
+    }
+
+    r = requests.post('https://demo-pnmt.systran.net/production/translate/html', headers=headers, cookies=cookies, data=data)
+    j = json.loads(r.text)
+    j = j['target'].split('\n')[2];
+    j = re.split(r'\>|\<', j)
+    return string.join(j[4::4], ' ')
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
