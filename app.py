@@ -42,7 +42,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the 
                     
-                    result = translate(message_text,target="en")
+                    result = translate(message_text, source="ar", target="en")
                     if result:
                     	send_message(sender_id, result)
                     else:
@@ -103,41 +103,39 @@ def send_message(recipient_id, message_text):
 # 		log("++++++++++++++++++++++")
 # 		return None
 
-def translate(text, source="ar", target="en"): # source & target are either ar, en or en, ar
+def translate(text, source, target): 
+
+    '''
+    text: text to translate
+    source: language code (en, ar) or empty string ''
+    target: language code
+    '''
 
     cookies = {
-        'lang': 'en',
-        'ses.sid': 's%3AYdbLoHsjRfk-jjm7PT-2PWg-5GH-NqDA.ygY0JWmQZqmoorUsKvKRwUTHGKttwDIMLaADn%2BjarYc',
+        'ARRAffinity': '381886f20a3d4c650efb6ba6743a59f751cd73ed32db817570e593f55e05a0e6',
+        'dnn.lang_to': 'ar',
     }
 
     headers = {
-        'Host': 'demo-pnmt.systran.net',
-        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0',
-        'Accept': '*/*',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'X-CSRF-Token': 'ZwbOllxv-0rcXInYO9RBpIdwPwFVlL1C0NP8',
-        'x-user-agent': 'Translation Box',
+        'Origin': 'https://translator.microsoft.com',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/53.0.2785.143 Chrome/53.0.2785.143 Safari/537.36',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Referer': 'https://translator.microsoft.com/neural',
         'X-Requested-With': 'XMLHttpRequest',
-        'Referer': 'https://demo-pnmt.systran.net/production',
-        'DNT': '1',
         'Connection': 'keep-alive',
     }
 
     data = {
-      'input': text,
-      'source': source,
-      'target': target,
-      'owner': 'Systran',
-      'domain': 'Generic',
-      'size': 'M'
+        "Text": text,
+        "SourceLanguage": source,
+        "TargetLanguage": target
     }
 
-    r = requests.post('https://demo-pnmt.systran.net/production/translate/html', headers=headers, cookies=cookies, data=data)
-    j = json.loads(r.text)
-    j = j['target'].split('\n')[2];
-    j = re.split(r'\>|\<', j)
-    return string.join(j[4::4], ' ')
+    r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers, cookies=cookies, data=json.dumps(data))
+    return json.loads(r.text)['resultNMT']
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
