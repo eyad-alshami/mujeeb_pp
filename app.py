@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
 import os
 import sys
+import string
+import requests
 import json
 import re
 import systran_translation_api
-import requests
 from flask import Flask, request
 
 app = Flask(__name__)
