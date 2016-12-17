@@ -7,9 +7,20 @@ import json
 import re
 import systran_translation_api
 from flask import Flask, request
+import os.path
+
+try:
+    import apiai
+except ImportError:
+    sys.path.append(
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)
+    )
+    import apiai
+
 
 app = Flask(__name__)
 
+CLIENT_ACCESS_TOKEN = '7be6ca066fee47e4859143db14d1ae1a'
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -44,7 +55,11 @@ def webhook():
                     
                     result = translate(message_text, target="en")
                     if result:
-                    	send_message(sender_id, result)
+                        jobject = get_response(result)
+                        if jobject["result"]['action'] == u'input.unknown':
+                            result = translate(jobject["result"]['fulfillment']['speech'], target="ar")
+                        else:
+                    	   send_message(sender_id, translate(d["result"]['fulfillment']['messages'][0]['speech'] ,target="ar"))
                     else:
                     	send_message(sender_id, message_text)
 
@@ -136,6 +151,21 @@ def translate(text, target):
 
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers, cookies=cookies, data=json.dumps(data))
     return json.loads(r.text)['resultNMT']
+
+def get_response(query):
+    ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
+
+    request = ai.text_request()
+
+    request.lang = 'en'  # optional, default value equal 'en'
+
+    request.session_id = "eyad0000"
+
+    request.query = query
+
+    response = request.getresponse()
+
+    return json.loads(response.read().decode('utf-8'))
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
