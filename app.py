@@ -2,7 +2,7 @@
 import os
 import sys
 import json
-
+import re
 import systran_translation_api
 import requests
 from flask import Flask, request
