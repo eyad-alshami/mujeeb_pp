@@ -102,7 +102,7 @@ def send_message(recipient_id, message_text):
 # 		log("++++++++++++++++++++++")
 # 		return None
 
-def translate(text, source, target): # source & target are either ar, en or en, ar
+def translate(text, source="ar", target="en"): # source & target are either ar, en or en, ar
 
     cookies = {
         'lang': 'en',
