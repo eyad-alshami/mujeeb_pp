@@ -42,7 +42,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the 
                     
-                    result = translate(message_text, source="ar", target="en")
+                    result = translate(message_text, target="en")
                     if result:
                     	send_message(sender_id, result)
                     else:
@@ -103,7 +103,7 @@ def send_message(recipient_id, message_text):
 # 		log("++++++++++++++++++++++")
 # 		return None
 
-def translate(text, source, target): 
+def translate(text, target): 
 
     '''
     text: text to translate
@@ -130,7 +130,7 @@ def translate(text, source, target):
 
     data = {
         "Text": text,
-        "SourceLanguage": source,
+        "SourceLanguage": "",
         "TargetLanguage": target
     }
 
