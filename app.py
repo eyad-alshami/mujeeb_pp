@@ -54,7 +54,6 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the
 
                     result = translate(message_text, target="en")
-                    log(result)
                     if result:
                         action, response_message = get_response(result, session=sender_id)
                         log (action)                        
