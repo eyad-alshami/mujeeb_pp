@@ -164,8 +164,9 @@ def get_response(query):
     request.query = query
 
     response = request.getresponse()
-
-    return json.loads(response.read().decode('utf-8'))["result"]['action'], ["result"]["fulfillment"]["speech"]
+    jobject = json.loads(response.read().decode('utf-8'))
+    
+    return jobject["result"]['action'], jobject["result"]["fulfillment"]["speech"]
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
