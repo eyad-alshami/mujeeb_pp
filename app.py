@@ -40,7 +40,7 @@ def webhook():
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
-    log(data)  # you may not want to log every incoming message in production, but it's good for testing
+    #log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
 
@@ -55,7 +55,7 @@ def webhook():
                     
                     result = translate(message_text, target="en")
                     if result:
-                        action, response_message = get_response(result)
+                        action, response_message = get_response(result, session=recipient_id)
                         if action == u'input.unknown':
                             result = translate(response_message, target="ar")
                         else:
@@ -152,20 +152,23 @@ def translate(text, target):
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers, cookies=cookies, data=json.dumps(data))
     return json.loads(r.text)['resultNMT']
 
-def get_response(query):
+def get_response(query, session="000"):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
 
     request = ai.text_request()
 
     request.lang = 'en'  # optional, default value equal 'en'
 
-    request.session_id = "eyad111"
+    request.session_id = session
 
     request.query = query
 
     response = request.getresponse()
-    jobject = json.loads(response.read().decode('utf-8'))
-    
+    try:
+        jobject = json.loads(response.read().decode('utf-8'))
+    except Exception:
+        log("error in api JSON file")
+
     return jobject["result"]['action'], jobject["result"]["fulfillment"]["speech"]
 
 def log(message):  # simple wrapper for logging to stdout on heroku
