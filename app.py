@@ -55,11 +55,11 @@ def webhook():
                     
                     result = translate(message_text, target="en")
                     if result:
-                        jobject = get_response(result)
-                        if jobject["result"]['action'] == u'input.unknown':
-                            result = translate(jobject["result"]["fulfillment"]["speech"], target="ar")
+                        action, response_message = get_response(result)
+                        if action == u'input.unknown':
+                            result = translate(response_message, target="ar")
                         else:
-                    	   send_message(sender_id, translate(jobject["result"]["fulfillment"]["speech"] ,target="ar"))
+                    	   send_message(sender_id, translate(response_message ,target="ar"))
                     else:
                     	send_message(sender_id, message_text)
 
@@ -96,7 +96,7 @@ def send_message(recipient_id, message_text):
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
-        log(r.status_code)
+        #log(r.status_code)
         log(r.text)
 
 # def translate(msg):
@@ -146,7 +146,7 @@ def translate(text, target):
     data = {
         "Text": text,
         "SourceLanguage": "",
-        "TargetLanguage": target
+        "TargetLanguage": target,
     }
 
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers, cookies=cookies, data=json.dumps(data))
@@ -159,13 +159,13 @@ def get_response(query):
 
     request.lang = 'en'  # optional, default value equal 'en'
 
-    request.session_id = "eyad0000"
+    request.session_id = "eyad111"
 
     request.query = query
 
     response = request.getresponse()
 
-    return json.loads(response.read().decode('utf-8'))
+    return json.loads(response.read().decode('utf-8'))["result"]['action'], ["result"]["fulfillment"]["speech"]
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
