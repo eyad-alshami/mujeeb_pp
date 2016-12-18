@@ -151,12 +151,14 @@ def translate(text, target):
 
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers, cookies=cookies, data=json.dumps(data))
     try:
-        jobject = json.loads(r.text)        
+        jobject = json.loads(r.text)
+        return jobject['resultNMT']        
     except Exception:
         log("error in MICROSOFT JSON file")
         log(r.text)
         return u"يوجد خطأ في الترجمة"
-    return jobject['resultNMT']
+
+    
 
 def get_response(query, session="000"):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
