@@ -145,7 +145,7 @@ def translate(text, target):
 
     data = {
         "Text": text,
-        "SourceLanguage": "",
+        "SourceLanguage": "ar",
         "TargetLanguage": target,
     }
 
