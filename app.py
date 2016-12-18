@@ -222,12 +222,13 @@ def webhook():
                         "id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the
 
-                    result = translate(message_text, target="en")
+                    result = translate(message_text, source="ar", target="en")
                     log(result)
                     if result:
                         action, response_message = get_response(result, session=sender_id)
+                        log (action)                        
                         log(response_message)
-                        result = translate(response_message, target="ar")
+                        result = translate(response_message,source="en", target="ar")
                         send_message(sender_id, result)
                     else:
                         send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
@@ -267,7 +268,7 @@ def send_message(recipient_id, message_text):
         log("")
 
 
-def translate(text, target):
+def translate(text, source, target):
     '''
     text: text to translate
     source: language code (en, ar) or empty string ''
@@ -293,8 +294,8 @@ def translate(text, target):
 
     data = {
         "Text": text,
-        "SourceLanguage": "ar",
-        "TargetLanguage": "en"
+        "SourceLanguage": source,
+        "TargetLanguage": target
     }
 
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers,
@@ -305,7 +306,7 @@ def translate(text, target):
         log("error in MICROSOFT JSON file")
         log(r.text)
         return u"يوجد خطأ في الترجمة"
-        
+
     return jobject['resultNMT']
 
 def get_response(query, session="000"):
