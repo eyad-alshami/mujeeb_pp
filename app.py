@@ -295,13 +295,13 @@ def translate(text, target):
     data = {
         "Text": text,
         "SourceLanguage": "",
-        "TargetLanguage": target
+        "TargetLanguage": target,
     }
 
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers,
                       cookies=cookies, data=json.dumps(data))
     try:
-        jobject = json.loads(r.text.decode('utf-8'))       
+        jobject = json.loads(r.text)       
     except Exception:
         log("error in MICROSOFT JSON file")
         log(target)
