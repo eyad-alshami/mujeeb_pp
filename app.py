@@ -54,8 +54,10 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the 
                     
                     result = translate(message_text, target="en")
+                    log(result)
+
                     if result:
-                        action, response_message = get_response(result, session=recipient_id)
+                        action, response_message = get_response(result, session=sender_id)
                         if action == u'input.unknown':
                             result = translate(response_message, target="ar")
                         else:
@@ -97,7 +99,7 @@ def send_message(recipient_id, message_text):
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         #log(r.status_code)
-        log(r.text)
+        #log(r.text)
 
 # def translate(msg):
 # 	api_key_file = r'api_key.txt'
