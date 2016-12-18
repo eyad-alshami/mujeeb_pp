@@ -105,8 +105,6 @@ def translate(text, target):
     source: language code (en, ar) or empty string ''
     target: language code
     '''
->>>>>>> refs/remotes/heroku/master
-
     cookies = {
         'ARRAffinity': '381886f20a3d4c650efb6ba6743a59f751cd73ed32db817570e593f55e05a0e6',
         'dnn.lang_to': 'ar',
