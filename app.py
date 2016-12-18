@@ -120,7 +120,7 @@ def send_message(recipient_id, message_text):
 # 		log("++++++++++++++++++++++")
 # 		return None
 
-def translate(text, target): 
+def translate(text, target):
 
     '''
     text: text to translate
