@@ -226,12 +226,10 @@ def webhook():
                     log(result)
                     if result:
                         action, response_message = get_response(result, session=sender_id)
-                        if action == u'input.unknown':
-                            result = translate(response_message, target="ar")
-                        else:
-                            send_message(sender_id, translate(response_message, target="ar"))
+                        result = translate(response_message, target="ar")
+                        send_message(sender_id, result)
                     else:
-                        send_message(sender_id, message_text)
+                        send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
