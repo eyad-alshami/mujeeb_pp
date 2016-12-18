@@ -155,7 +155,7 @@ def translate(text, target):
         return jobject['resultNMT']
     except Exception:
         log("error in MICROSOFT JSON file")
-        log(r.read())
+        log(r.text)
         return u"يوجد خطأ في الترجمة"
     
 
