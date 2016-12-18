@@ -226,6 +226,7 @@ def webhook():
                     log(result)
                     if result:
                         action, response_message = get_response(result, session=sender_id)
+                        log(response_message)
                         result = translate(response_message, target="ar")
                         send_message(sender_id, result)
                     else:
