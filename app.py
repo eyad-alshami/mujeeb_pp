@@ -301,11 +301,11 @@ def translate(text, target):
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers,
                       cookies=cookies, data=json.dumps(data))
     try:
-        jobject = json.loads(r.text)       
+        jobject = json.loads(r.text)
     except Exception:
         log("error in MICROSOFT JSON file")
         log(target)
-        return u"يوجد خطأ في الترجمة"
+        return "error in MICROSOFT JSON file" + r.text
 
     return jobject['resultNMT']
 
