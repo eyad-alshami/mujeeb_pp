@@ -304,7 +304,6 @@ def translate(text, target):
         jobject = json.loads(r.text.decode('utf-8'))       
     except Exception:
         log("error in MICROSOFT JSON file")
-        log(r.text)
         log(target)
         return u"يوجد خطأ في الترجمة"
 
