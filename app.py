@@ -150,7 +150,14 @@ def translate(text, target):
     }
 
     r = requests.post('https://translator.microsoft.com/neural/api/translator/translate', headers=headers, cookies=cookies, data=json.dumps(data))
-    return json.loads(r.text)['resultNMT']
+    try:
+        jobject = json.loads(r.text)
+        return jobject['resultNMT']
+    except Exception:
+        log("error in MICROSOFT JSON file")
+        log(r.read())
+        return u"يوجد خطأ في الترجمة"
+    
 
 def get_response(query, session="000"):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
@@ -167,7 +174,7 @@ def get_response(query, session="000"):
     try:
         jobject = json.loads(response.read().decode('utf-8'))
     except Exception:
-        log("error in api JSON file")
+        log("error in API JSON file")
 
     return jobject["result"]['action'], jobject["result"]["fulfillment"]["speech"]
 
