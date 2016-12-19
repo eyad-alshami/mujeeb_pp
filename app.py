@@ -19,7 +19,7 @@ except ImportError:
 
 app = Flask(__name__)
 
-CLIENT_ACCESS_TOKEN = '7be6ca066fee47e4859143db14d1ae1a'
+CLIENT_ACCESS_TOKEN = 'd78f2757db9d421eba31d03d08b03eae'
 
 
 @app.route('/', methods=['GET'])
@@ -134,7 +134,7 @@ def translate(text, target):
     except Exception:
         log("error in MICROSOFT JSON file")
         log(target)
-        return "error in MICROSOFT JSON file" + r.text
+        return "an internal error has occured" + r.text
 
     return jobject['resultNMT']
 
@@ -153,7 +153,7 @@ def get_response(query, session="000"):
     try:
         jobject = json.loads(response.read().decode('utf-8'))
     except Exception:
-        log("error in API JSON file")
+        log("error in api JSON file")
 
     return jobject["result"]['action'], jobject["result"]["fulfillment"]["speech"]
 
