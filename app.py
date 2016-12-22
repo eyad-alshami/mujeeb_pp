@@ -52,7 +52,9 @@ def webhook():
                     recipient_id = messaging_event["recipient"][
                         "id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the
-                    log(message_text)
+
+                    log(messaging_event)
+
                     result = translate(message_text, target="en")
                     if result:
                         action, response_message = get_response(result, session=sender_id)
