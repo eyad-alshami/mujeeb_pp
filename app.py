@@ -134,7 +134,7 @@ def translate(text, target):
     except Exception:
         log("error in MICROSOFT JSON file")
         log(target)
-        return u"اعذرني على قلة فهمي، يمكنك أن تسألني عن أحد المواضيع التالية: \n خدماتي \n الفريق المطور \n استخداماتي \n تجريب خدماتي."
+        return u"اعذرني على قلة فهمي، يمكنك أن تستفسر عن : \n خدماتي \n الفريق المطور \n لماذا تريد ان تستخدمني \n تجريبي."
 
     return jobject['resultNMT']
 
