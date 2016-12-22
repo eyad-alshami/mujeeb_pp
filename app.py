@@ -52,21 +52,21 @@ def webhook():
                     recipient_id = messaging_event["recipient"][
                         "id"]  # the recipient's ID, which should be your page's facebook ID
                     try:
-	                    message_text = messaging_event["message"]["text"]  # the
+                        message_text = messaging_event["message"]["text"]  # the
 
-	                    log(messaging_event)
+                        log(messaging_event)
 
-	                    result = translate(message_text, target="en")
-	                    if result:
-	                        action, response_message = get_response(result, session=sender_id)
-	                        log (action)                        
-	                        log(response_message)
-	                        result = translate(response_message, target="ar")
-	                        send_message(sender_id, result)
-	                    else:
-	                        send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
-	                except Exception:
-	                	send_message(sender_id, u"شكرا لك :)")
+                        result = translate(message_text, target="en")
+                        if result:
+                            action, response_message = get_response(result, session=sender_id)
+                            log(action)
+                            log(response_message)
+                            result = translate(response_message, target="ar")
+                            send_message(sender_id, result)
+                        else:
+                            send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+                    except Exception:
+                        send_message(sender_id, u"شكرا لك :)")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -142,6 +142,7 @@ def translate(text, target):
         return u"اعذرني على قلة فهمي، يمكنك أن تستفسر عن : \n خدماتي \n الفريق المطور \n لماذا تريد ان تستخدمني \n تجريبي."
 
     return jobject['resultNMT']
+
 
 def get_response(query, session="000"):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
