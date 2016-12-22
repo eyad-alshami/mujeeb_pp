@@ -134,7 +134,7 @@ def translate(text, target):
     except Exception:
         log("error in MICROSOFT JSON file")
         log(target)
-        return "an internal error has occured" + r.text
+        return u"اعذرني على قلة فهمي، يمكنك أن تسألني عن أحد المواضيع التالية: \n خدماتي \n الفريق المطور \n استخداماتي \n تجريب خدماتي."
 
     return jobject['resultNMT']
 
