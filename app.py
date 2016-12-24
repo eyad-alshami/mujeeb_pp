@@ -37,7 +37,7 @@ Api = {u'Ask.api': u"عذراً، لم أفهم ما قلته للتو."
        u'Mujeeb.uses': u"انا عميل محادثة باللغة العربية او ما يسمى \n chatbot سيتمكن عملائك من استعمال خدمتك بشكل غير مسبوق، وسيمكنهم التحدث مع عميل المحادثة الخاص بك والتفاعل مع خدماتك دون انتظار وفي أي وقت."
     , u'Mujeeb.why.to.use.it': u"يوفر لك مجيب أحدث التقنيات وفريقاً خبيراً لتقديم واجهة محادثة تفاعلية وذكية لزبائنك."
     , u'user.love': u"وأنا أحبك أيضاً."
-    }
+       }
 
 
 @app.route('/', methods=['GET'])
@@ -71,13 +71,16 @@ def webhook():
                         message_text = messaging_event["message"]["text"]  # the
 
                         result = translate(message_text, target="en")
+                        log(result)
+
+
                         if result:
                             action, intent, response_message = get_response(result, session=sender_id)
                             log("++++++++++")
 
                             log(response_message)
                             log(action)
-                            log (response_message)
+                            log(response_message)
                             log("++++++++++")
 
                             try:
@@ -86,10 +89,9 @@ def webhook():
                                 log("no result")
                                 result = response_message
                             send_message(sender_id, result)
-
-
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+
                     except Exception:
                         send_message(sender_id, u"شكرا لك :)")
 
@@ -191,7 +193,8 @@ def get_response(query, session="000"):
     except Exception:
         return jobject["result"]['action'], "no response"
 
-    return jobject["result"]["action"], intent, jobject["result"]['fulfillment']['speech']  # jobject["result"]["metadata"]["intentName"]
+    return jobject["result"]["action"], intent, jobject["result"]['fulfillment'][
+        'speech']  # jobject["result"]["metadata"]["intentName"]
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
