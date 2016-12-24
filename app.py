@@ -19,7 +19,7 @@ except ImportError:
 
 app = Flask(__name__)
 
-CLIENT_ACCESS_TOKEN = '7be6ca066fee47e4859143db14d1ae1a'
+CLIENT_ACCESS_TOKEN = 'd78f2757db9d421eba31d03d08b03eae'
 
 
 @app.route('/', methods=['GET'])
@@ -51,17 +51,22 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]  # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"][
                         "id"]  # the recipient's ID, which should be your page's facebook ID
-                    message_text = messaging_event["message"]["text"]  # the
+                    try:
+	                    message_text = messaging_event["message"]["text"]  # the
 
-                    result = translate(message_text, target="en")
-                    if result:
-                        action, response_message = get_response(result, session=sender_id)
-                        log (action)                        
-                        log(response_message)
-                        result = translate(response_message, target="ar")
-                        send_message(sender_id, result)
-                    else:
-                        send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+	                    log(messaging_event)
+
+	                    result = translate(message_text, target="en")
+	                    if result:
+	                        action, response_message = get_response(result, session=sender_id)
+	                        log (action)                        
+	                        log(response_message)
+	                        result = translate(response_message, target="ar")
+	                        send_message(sender_id, result)
+	                    else:
+	                        send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+	                except Exception:
+	                	send_message(sender_id, u"شكرا لك :)")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -134,7 +139,7 @@ def translate(text, target):
     except Exception:
         log("error in MICROSOFT JSON file")
         log(target)
-        return "error in MICROSOFT JSON file" + r.text
+        return u"اعذرني على قلة فهمي، يمكنك أن تستفسر عن : \n خدماتي \n الفريق المطور \n لماذا تريد ان تستخدمني \n تجريبي."
 
     return jobject['resultNMT']
 
@@ -153,7 +158,7 @@ def get_response(query, session="000"):
     try:
         jobject = json.loads(response.read().decode('utf-8'))
     except Exception:
-        log("error in API JSON file")
+        log("error in api JSON file")
 
     return jobject["result"]['action'], jobject["result"]["fulfillment"]["speech"]
 
