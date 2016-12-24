@@ -182,7 +182,7 @@ def get_response(query, session="000"):
     except Exception:
     	return jobject["result"]['action'], "no response"
 
-    return jobject["result"]['action'], intent  #jobject["result"]["metadata"]["intentName"]
+    return jobject["result"]["action"], intent  #jobject["result"]["metadata"]["intentName"]
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
