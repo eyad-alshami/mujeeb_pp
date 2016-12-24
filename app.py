@@ -77,12 +77,13 @@ def webhook():
 
                             log("++++++++++")
 
-                            if response_message is not "no response":
+                            #if response_message.strip() is not "no response":
 	                            #log(action)
 	                            #log(response_message)
 	                            #result = translate(response_message, target="ar")
-	                            result = Api[response_message.strip()]
-	                            send_message(sender_id, result)
+	                        log("result is not None")
+	                        result = Api[response_message.strip()]
+	                        send_message(sender_id, result)
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
                     except Exception:
