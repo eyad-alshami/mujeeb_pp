@@ -79,15 +79,13 @@ def webhook():
 
                             log("++++++++++")
 
-
-                            result = Api[response_message.strip()]
-
-                            if result == "":
-                                send_message(sender_id, u"فاضية")
-                                log('empty')
-                            else:
-                                send_message(sender_id, u"مو فاضية")
-                                log("not empty")
+                            try:
+                                result = Api[response_message.strip()]
+                            except Exception:
+                                log("no result")
+                                result = "error in dict"
+                            send_message(sender_id, u"مو فاضية")
+                            
 
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
