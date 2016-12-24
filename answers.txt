@@ -1,0 +1,51 @@
+Ask.api
+I didn't understand what you just said.
+عذراً، لم أفهم ما قلته للتو.
+
+Ask.name
+My name is Mujeeb, because I can answer your customers' questions.
+اسمي مجيب، أستطيع مساعدتك لبناء عميل محادثة (chatbot) للإجابة على أسئلة عملائك.
+
+Asking.present.tenses
+I'm talking to you now, and I can build your own conversation client to answer your clients ' questions.
+أنا الآن أتحدث معك، أستطيع أيضاً بناء عميل محادثة خاص بك للإجابة على أسئلة عملائك.
+
+Default Fallback Intent
+I'm sorry. I'm having trouble understanding the question.
+آسف، لم أفهم ما قلته للتو.
+
+Default Welcome Intent
+Hi
+مرحبا
+
+Mujeeb.about.team
+I was created by a team that has experience in natural languages processing
+صنعني فريق له خبرة في الذكاء الاصطناعي ومعالجة اللغات الطبيعية.
+
+Mujeeb.ai
+Mujeeb relies heavily on artificial intelligence. however The world still has plenty to arrive at a full understanding of the natural language.
+يعتمد مجيب على الذكاء الاصطناعي بشكل أساسي، ولكن الطريق ما يزال طويلاً حتى الوصول لفهم آلي كامل للغة العربية.
+
+Mujeeb.build
+you can send a FAQs url page or a file containing questions and answers. for more information you can a visit: mujeeb.ai
+يمكنك إرسال رابط صفحة الأسئلة الشائعة على موقعك أو ملف يحوي تلك الأسئلة ضمن هذه المحادثة. لمزيد من المعلومات، قم بزيارة mujeeb.ai
+
+Mujeeb.how.to.use
+you can access our prototype by entering your details here: mujeeb.ai
+يمكنك تجربة مجيب عن طريق إدخال بياناتك هنا mujeeb.ai
+
+Mujeeb.services
+I can build an arabic conversation client for your own business.
+يمكنني أن أبني عميل محادثة خاصاً بعملك أو خدمتك.
+
+Mujeeb.uses
+Your customers will find that it easy to use the services as never before. They can search, view, buy things just like they do on your app or ask questions, give feedback.
+سيتمكن عملائك من استعمال خدمتك بشكل غير مسبوق، وسيمكنهم التحدث مع عميل المحادثة الخاص بك والتفاعل مع خدماتك دون انتظار وفي أي وقت.
+
+Mujeeb.why.to.use.it
+Mujeeb provides the newest technology and an experienced team to help you build a better conversational service.
+يوفر لك مجيب أحدث التقنيات وفريقاً خبيراً لتقديم واجهة محادثة تفاعلية وذكية لزبائنك.
+
+user.love
+And I too love you.
+وأنا أحبك أيضاً.
