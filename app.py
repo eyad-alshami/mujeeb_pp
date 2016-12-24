@@ -80,7 +80,7 @@ def webhook():
 
                             log(response_message)
                             log(action)
-                            log(response_message)
+                            log(intent)
                             log("++++++++++")
 
                             try:
