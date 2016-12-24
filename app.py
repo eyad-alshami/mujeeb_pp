@@ -81,10 +81,14 @@ def webhook():
 
 
                             result = Api[response_message.strip()]
+
                             if result == "":
                                 send_message(sender_id, u"فاضية")
+                                log('empty')
                             else:
                                 send_message(sender_id, u"مو فاضية")
+                                log("not empty")
+
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
                     except Exception:
