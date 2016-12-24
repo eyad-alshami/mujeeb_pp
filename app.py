@@ -71,6 +71,8 @@ def webhook():
                         result = translate(message_text, target="en")
                         if result:
                             action, response_message = get_response(result, session=sender_id)
+                            log(response_message)
+                            log(action)
                             if response_message is not "no response":
 	                            #log(action)
 	                            #log(response_message)
