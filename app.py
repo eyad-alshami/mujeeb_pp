@@ -21,24 +21,6 @@ app = Flask(__name__)
 
 CLIENT_ACCESS_TOKEN = 'd78f2757db9d421eba31d03d08b03eae'
 
-Api = {u'Ask.api': u"عذراً، لم أفهم ما قلته للتو."
-    , u'Ask.name': u"اسمي مجيب، أستطيع مساعدتك لبناء عميل محادثة (chatbot) للإجابة على أسئلة عملائك."
-    , u'Asking.present.tenses': u"أنا الآن أتحدث معك، أستطيع أيضاً بناء عميل محادثة خاص بك للإجابة على أسئلة عملائك"
-    , u'Default Fallback Intent': u"آسف، لم أفهم ما قلته للتو."
-    , u'Default Welcome Intent': u"مرحبا"
-    , u'Mujeeb.about.team': u"صنعني فريق له خبرة في الذكاء الاصطناعي ومعالجة اللغات الطبيعية."
-    ,
-       u'Mujeeb.ai': u"يعتمد مجيب على الذكاء الاصطناعي بشكل أساسي، ولكن الطريق ما يزال طويلاً حتى الوصول لفهم آلي كامل للغة العربية"
-    ,
-       u'Mujeeb.build': u"يمكنك إرسال رابط صفحة الأسئلة الشائعة على موقعك أو ملف يحوي تلك الأسئلة ضمن هذه المحادثة. لمزيد من المعلومات، قم بزيارة mujeeb.ai"
-    , u'Mujeeb.how.to.use': u"يمكنك تجربة مجيب عن طريق إدخال بياناتك هنا mujeeb.ai"
-    , u'Mujeeb.services': u"يمكنني أن أبني عميل محادثة خاصاً بعملك أو خدمتك, يمكنك التسجيل في موقعي \n www.mujeeb.ai"
-    ,
-       u'Mujeeb.uses': u"انا عميل محادثة باللغة العربية او ما يسمى \n chatbot سيتمكن عملائك من استعمال خدمتك بشكل غير مسبوق، وسيمكنهم التحدث مع عميل المحادثة الخاص بك والتفاعل مع خدماتك دون انتظار وفي أي وقت."
-    , u'Mujeeb.why.to.use.it': u"يوفر لك مجيب أحدث التقنيات وفريقاً خبيراً لتقديم واجهة محادثة تفاعلية وذكية لزبائنك."
-    , u'user.love': u"وأنا أحبك أيضاً."
-       }
-
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -48,6 +30,7 @@ def verify():
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
+    initialize_tra()
     return "Hello world", 200
 
 
@@ -56,6 +39,7 @@ def webhook():
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
+    # log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
 
@@ -68,33 +52,21 @@ def webhook():
                     recipient_id = messaging_event["recipient"][
                         "id"]  # the recipient's ID, which should be your page's facebook ID
                     try:
-                        message_text = messaging_event["message"]["text"]  # the
+	                    message_text = messaging_event["message"]["text"]  # the
 
-                        result = translate(message_text, target="en")
-                        log(result)
-                        
-                    except Exception:
-                        send_message(sender_id, u"شكرا لك :)")
+	                    log(messaging_event)
 
-                    if result:
-                        action, intent, response_message = get_response(result, session=sender_id)
-                        log("++++++++++")
-
-                        log(response_message)
-                        log(action)
-                        log(intent)
-                        log("++++++++++")
-
-                        try:
-                            result = Api[intent]
-                        except Exception:
-                            log("no result")
-                            result = response_message
-                            send_message(sender_id, result)
-                    else:
-                        send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
-
-                    
+	                    result = translate(message_text, target="en")
+	                    if result:
+	                        action, response_message = get_response(result, session=sender_id)
+	                        log (action)                        
+	                        log(response_message)
+	                        result = translate(response_message, target="ar")
+	                        send_message(sender_id, result)
+	                    else:
+	                        send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+	                except Exception:
+	                	send_message(sender_id, u"شكرا لك :)")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -127,6 +99,7 @@ def send_message(recipient_id, message_text):
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
+        # log(r.status_code)
         log("")
 
 
@@ -170,7 +143,6 @@ def translate(text, target):
 
     return jobject['resultNMT']
 
-
 def get_response(query, session="000"):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
 
@@ -188,14 +160,7 @@ def get_response(query, session="000"):
     except Exception:
         log("error in api JSON file")
 
-    try:
-        intent = jobject["result"]["metadata"]["intentName"]
-        log(intent)
-    except Exception:
-        return jobject["result"]['action'], "no intent", "no response"
-
-    return jobject["result"]["action"], intent, jobject["result"]['fulfillment'][
-        'speech']  # jobject["result"]["metadata"]["intentName"]
+    return jobject["result"]['action'], jobject["result"]["fulfillment"]["speech"]
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
@@ -204,4 +169,4 @@ def log(message):  # simple wrapper for logging to stdout on heroku
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+app.run(debug=True)
