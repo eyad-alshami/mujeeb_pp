@@ -72,28 +72,29 @@ def webhook():
 
                         result = translate(message_text, target="en")
                         log(result)
-
-
-                        if result:
-                            action, intent, response_message = get_response(result, session=sender_id)
-                            log("++++++++++")
-
-                            log(response_message)
-                            log(action)
-                            log(intent)
-                            log("++++++++++")
-
-                            try:
-                                result = Api[intent]
-                            except Exception:
-                                log("no result")
-                                result = response_message
-                            send_message(sender_id, result)
-                        else:
-                            send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
-
+                        
                     except Exception:
                         send_message(sender_id, u"شكرا لك :)")
+
+                    if result:
+                        action, intent, response_message = get_response(result, session=sender_id)
+                        log("++++++++++")
+
+                        log(response_message)
+                        log(action)
+                        log(intent)
+                        log("++++++++++")
+
+                        try:
+                            result = Api[intent]
+                        except Exception:
+                            log("no result")
+                            result = response_message
+                            send_message(sender_id, result)
+                    else:
+                        send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+
+                    
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
