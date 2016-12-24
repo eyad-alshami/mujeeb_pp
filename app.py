@@ -53,7 +53,6 @@ def webhook():
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
-    # log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
 
@@ -71,8 +70,13 @@ def webhook():
                         result = translate(message_text, target="en")
                         if result:
                             action, response_message = get_response(result, session=sender_id)
+                            log("++++++++++")
+
                             log(response_message)
                             log(action)
+
+                            log("++++++++++")
+
                             if response_message is not "no response":
 	                            #log(action)
 	                            #log(response_message)
@@ -115,7 +119,6 @@ def send_message(recipient_id, message_text):
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
-        # log(r.status_code)
         log("")
 
 
@@ -179,6 +182,7 @@ def get_response(query, session="000"):
 
     try:
     	intent = jobject["result"]["metadata"]["intentName"]
+    	log(intent)
     except Exception:
     	return jobject["result"]['action'], "no response"
 
