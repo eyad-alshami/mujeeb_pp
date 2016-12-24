@@ -192,7 +192,7 @@ def get_response(query, session="000"):
         intent = jobject["result"]["metadata"]["intentName"]
         log(intent)
     except Exception:
-        return jobject["result"]['action'], "no response"
+        return jobject["result"]['action'], "no intent", "no response"
 
     return jobject["result"]["action"], intent, jobject["result"]['fulfillment'][
         'speech']  # jobject["result"]["metadata"]["intentName"]
