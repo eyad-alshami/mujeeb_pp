@@ -81,7 +81,7 @@ def webhook():
 	                            #log(action)
 	                            #log(response_message)
 	                            #result = translate(response_message, target="ar")
-	                            result = Api[response_message]
+	                            result = Api[response_message.strip()]
 	                            send_message(sender_id, result)
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
