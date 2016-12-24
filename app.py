@@ -78,27 +78,27 @@ def webhook():
                             log("++++++++++")
 
                             #if response_message.strip() is not "no response":
-	                            #log(action)
-	                            #log(response_message)
-	                            #result = translate(response_message, target="ar")
-	                        log("result is not None")
-	                        result = Api[response_message.strip()]
-	                        send_message(sender_id, result)
-                        else:
-                            send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
-                    except Exception:
-                        send_message(sender_id, u"شكرا لك :)")
+                            #log(action)
+                            #log(response_message)
+                            #result = translate(response_message, target="ar")
+                            log("result is not None")
+                            result = Api[response_message.strip()]
+                            send_message(sender_id, result)
+                    else:
+                    send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+            except Exception:
+            send_message(sender_id, u"شكرا لك :)")
 
-                if messaging_event.get("delivery"):  # delivery confirmation
-                    pass
+    if messaging_event.get("delivery"):  # delivery confirmation
+        pass
 
-                if messaging_event.get("optin"):  # optin confirmation
-                    pass
+    if messaging_event.get("optin"):  # optin confirmation
+        pass
 
-                if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
+    if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+        pass
 
-    return "ok", 200
+return "ok", 200
 
 
 def send_message(recipient_id, message_text):
@@ -182,10 +182,10 @@ def get_response(query, session="000"):
         log("error in api JSON file")
 
     try:
-    	intent = jobject["result"]["metadata"]["intentName"]
-    	log(intent)
+        intent = jobject["result"]["metadata"]["intentName"]
+        log(intent)
     except Exception:
-    	return jobject["result"]['action'], "no response"
+        return jobject["result"]['action'], "no response"
 
     return jobject["result"]["action"], intent  #jobject["result"]["metadata"]["intentName"]
 
