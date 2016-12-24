@@ -80,11 +80,11 @@ def webhook():
                             log("++++++++++")
 
                             try:
-                                result = Api[response_message.strip()]
+                                result = Api[response_message]
                             except Exception:
                                 log("no result")
                                 result = "error in dict"
-                            send_message(sender_id, u"مو فاضية")
+                            send_message(sender_id, result)
 
 
                         else:
