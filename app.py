@@ -36,7 +36,8 @@ Api = {u'Ask.api': u"عذراً، لم أفهم ما قلته للتو."
     ,
        u'Mujeeb.uses': u"انا عميل محادثة باللغة العربية او ما يسمى \n chatbot سيتمكن عملائك من استعمال خدمتك بشكل غير مسبوق، وسيمكنهم التحدث مع عميل المحادثة الخاص بك والتفاعل مع خدماتك دون انتظار وفي أي وقت."
     , u'Mujeeb.why.to.use.it': u"يوفر لك مجيب أحدث التقنيات وفريقاً خبيراً لتقديم واجهة محادثة تفاعلية وذكية لزبائنك."
-    , u'user.love': u"وأنا أحبك أيضاً."}
+    , u'user.love': u"وأنا أحبك أيضاً."
+    }
 
 
 @app.route('/', methods=['GET'])
@@ -71,7 +72,7 @@ def webhook():
 
                         result = translate(message_text, target="en")
                         if result:
-                            action, response_message = get_response(result, session=sender_id)
+                            action, intent, response_message = get_response(result, session=sender_id)
                             log("++++++++++")
 
                             log(response_message)
@@ -80,10 +81,10 @@ def webhook():
                             log("++++++++++")
 
                             try:
-                                result = Api[response_message]
+                                result = Api[intent]
                             except Exception:
                                 log("no result")
-                                result = "error in dict"
+                                result = response_message
                             send_message(sender_id, result)
 
 
@@ -190,7 +191,7 @@ def get_response(query, session="000"):
     except Exception:
         return jobject["result"]['action'], "no response"
 
-    return jobject["result"]["action"], intent  # jobject["result"]["metadata"]["intentName"]
+    return jobject["result"]["action"], intent, jobject["result"]['fulfillment']['speech']  # jobject["result"]["metadata"]["intentName"]
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
