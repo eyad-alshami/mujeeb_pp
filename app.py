@@ -22,16 +22,19 @@ app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = 'd78f2757db9d421eba31d03d08b03eae'
 
 Api = {'Ask.api': u"عذراً، لم أفهم ما قلته للتو."
-    , 'Ask.name' : u"اسمي مجيب، أستطيع مساعدتك لبناء عميل محادثة (chatbot) للإجابة على أسئلة عملائك."
+    , 'Ask.name': u"اسمي مجيب، أستطيع مساعدتك لبناء عميل محادثة (chatbot) للإجابة على أسئلة عملائك."
     , 'Asking.present.tenses': u"أنا الآن أتحدث معك، أستطيع أيضاً بناء عميل محادثة خاص بك للإجابة على أسئلة عملائك"
     , 'Default Fallback Intent': u"آسف، لم أفهم ما قلته للتو."
     , 'Default Welcome Intent': u"مرحبا"
     , 'Mujeeb.about.team': u"صنعني فريق له خبرة في الذكاء الاصطناعي ومعالجة اللغات الطبيعية."
-    , 'Mujeeb.ai' : u"يعتمد مجيب على الذكاء الاصطناعي بشكل أساسي، ولكن الطريق ما يزال طويلاً حتى الوصول لفهم آلي كامل للغة العربية"
-    , 'Mujeeb.build': u"يمكنك إرسال رابط صفحة الأسئلة الشائعة على موقعك أو ملف يحوي تلك الأسئلة ضمن هذه المحادثة. لمزيد من المعلومات، قم بزيارة mujeeb.ai"
+    ,
+       'Mujeeb.ai': u"يعتمد مجيب على الذكاء الاصطناعي بشكل أساسي، ولكن الطريق ما يزال طويلاً حتى الوصول لفهم آلي كامل للغة العربية"
+    ,
+       'Mujeeb.build': u"يمكنك إرسال رابط صفحة الأسئلة الشائعة على موقعك أو ملف يحوي تلك الأسئلة ضمن هذه المحادثة. لمزيد من المعلومات، قم بزيارة mujeeb.ai"
     , 'Mujeeb.how.to.use': u"يمكنك تجربة مجيب عن طريق إدخال بياناتك هنا mujeeb.ai"
     , 'Mujeeb.services': u"يمكنني أن أبني عميل محادثة خاصاً بعملك أو خدمتك"
-    , 'Mujeeb.uses': u"سيتمكن عملائك من استعمال خدمتك بشكل غير مسبوق، وسيمكنهم التحدث مع عميل المحادثة الخاص بك والتفاعل مع خدماتك دون انتظار وفي أي وقت."
+    ,
+       'Mujeeb.uses': u"سيتمكن عملائك من استعمال خدمتك بشكل غير مسبوق، وسيمكنهم التحدث مع عميل المحادثة الخاص بك والتفاعل مع خدماتك دون انتظار وفي أي وقت."
     , 'Mujeeb.why.to.use.it': u"يوفر لك مجيب أحدث التقنيات وفريقاً خبيراً لتقديم واجهة محادثة تفاعلية وذكية لزبائنك."
     , 'user.love': u"وأنا أحبك أيضاً."}
 
@@ -44,7 +47,6 @@ def verify():
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
-    initialize_tra()
     return "Hello world", 200
 
 
@@ -77,28 +79,24 @@ def webhook():
 
                             log("++++++++++")
 
-                            #if response_message.strip() is not "no response":
-                            #log(action)
-                            #log(response_message)
-                            #result = translate(response_message, target="ar")
                             log("result is not None")
                             result = Api[response_message.strip()]
                             send_message(sender_id, result)
-                    else:
-                    send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
-            except Exception:
-            send_message(sender_id, u"شكرا لك :)")
+                        else:
+                            send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
+                    except Exception:
+                        send_message(sender_id, u"شكرا لك :)")
 
-    if messaging_event.get("delivery"):  # delivery confirmation
-        pass
+                if messaging_event.get("delivery"):  # delivery confirmation
+                    pass
 
-    if messaging_event.get("optin"):  # optin confirmation
-        pass
+                if messaging_event.get("optin"):  # optin confirmation
+                    pass
 
-    if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-        pass
+                if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                    pass
 
-return "ok", 200
+    return "ok", 200
 
 
 def send_message(recipient_id, message_text):
@@ -187,7 +185,7 @@ def get_response(query, session="000"):
     except Exception:
         return jobject["result"]['action'], "no response"
 
-    return jobject["result"]["action"], intent  #jobject["result"]["metadata"]["intentName"]
+    return jobject["result"]["action"], intent  # jobject["result"]["metadata"]["intentName"]
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
