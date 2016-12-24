@@ -21,6 +21,20 @@ app = Flask(__name__)
 
 CLIENT_ACCESS_TOKEN = 'd78f2757db9d421eba31d03d08b03eae'
 
+Api = {'Ask.api': "عذراً، لم أفهم ما قلته للتو."
+    , 'Ask.name' : "اسمي مجيب، أستطيع مساعدتك لبناء عميل محادثة (chatbot) للإجابة على أسئلة عملائك."
+    , 'Asking.present.tenses': "أنا الآن أتحدث معك، أستطيع أيضاً بناء عميل محادثة خاص بك للإجابة على أسئلة عملائك"
+    , 'Default Fallback Intent': "آسف، لم أفهم ما قلته للتو."
+    , 'Default Welcome Intent': "مرحبا"
+    , 'Mujeeb.about.team': "صنعني فريق له خبرة في الذكاء الاصطناعي ومعالجة اللغات الطبيعية."
+    , 'Mujeeb.ai' : "يعتمد مجيب على الذكاء الاصطناعي بشكل أساسي، ولكن الطريق ما يزال طويلاً حتى الوصول لفهم آلي كامل للغة العربية"
+    , 'Mujeeb.build': "يمكنك إرسال رابط صفحة الأسئلة الشائعة على موقعك أو ملف يحوي تلك الأسئلة ضمن هذه المحادثة. لمزيد من المعلومات، قم بزيارة mujeeb.ai"
+    , 'Mujeeb.how.to.use':"يمكنك تجربة مجيب عن طريق إدخال بياناتك هنا mujeeb.ai"
+    , 'Mujeeb.services':"يمكنني أن أبني عميل محادثة خاصاً بعملك أو خدمتك"
+    , 'Mujeeb.uses': "سيتمكن عملائك من استعمال خدمتك بشكل غير مسبوق، وسيمكنهم التحدث مع عميل المحادثة الخاص بك والتفاعل مع خدماتك دون انتظار وفي أي وقت."
+    , 'Mujeeb.why.to.use.it':"يوفر لك مجيب أحدث التقنيات وفريقاً خبيراً لتقديم واجهة محادثة تفاعلية وذكية لزبائنك."
+    , 'user.love':"وأنا أحبك أيضاً."}
+
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -54,15 +68,15 @@ def webhook():
                     try:
                         message_text = messaging_event["message"]["text"]  # the
 
-                        log(messaging_event)
-
                         result = translate(message_text, target="en")
                         if result:
                             action, response_message = get_response(result, session=sender_id)
-                            log(action)
-                            log(response_message)
-                            result = translate(response_message, target="ar")
-                            send_message(sender_id, result)
+                            if response_message is not "no response":
+	                            #log(action)
+	                            #log(response_message)
+	                            #result = translate(response_message, target="ar")
+	                            result = Api[response_message]
+	                            send_message(sender_id, result)
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
                     except Exception:
@@ -161,7 +175,12 @@ def get_response(query, session="000"):
     except Exception:
         log("error in api JSON file")
 
-    return jobject["result"]['action'], jobject["result"]["fulfillment"]["speech"]
+    try:
+    	intent = jobject["result"]["metadata"]["intentName"]
+    except Exception:
+    	return jobject["result"]['action'], "no response"
+
+    return jobject["result"]['action'], intent  #jobject["result"]["metadata"]["intentName"]
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
