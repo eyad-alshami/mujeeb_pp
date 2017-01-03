@@ -56,12 +56,12 @@ def webhook():
 
                         log(messaging_event)
 
-                        result = translate(message_text, target="en")
+                        result = translate(message_text,source="ar", target="en")
                         if result:
                             action, response_message = get_response(result, session=sender_id)
                             log(action)
                             log(response_message)
-                            result = translate(response_message, target="ar")
+                            result = translate(response_message,source="en" target="ar")
                             send_message(sender_id, result)
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
@@ -103,7 +103,7 @@ def send_message(recipient_id, message_text):
         log("")
 
 
-def translate(text, target):
+def translate(text, source, target):
     '''
     text: text to translate
     source: language code (en, ar) or empty string ''
@@ -128,7 +128,7 @@ def translate(text, target):
 
     data = {
         "Text": text,
-        "SourceLanguage": "",
+        "SourceLanguage": source,
         "TargetLanguage": target,
     }
 
