@@ -56,12 +56,20 @@ def webhook():
 
                         log(messaging_event)
 
+<<<<<<< HEAD
                         result = translate(message_text,source="ar", target="en")
+=======
+                        result = translate(message_text, target="en")
+>>>>>>> refs/remotes/heroku/master
                         if result:
                             action, response_message = get_response(result, session=sender_id)
                             log(action)
                             log(response_message)
+<<<<<<< HEAD
                             result = translate(response_message,source="en" target="ar")
+=======
+                            result = translate(response_message, target="ar")
+>>>>>>> refs/remotes/heroku/master
                             send_message(sender_id, result)
                         else:
                             send_message(sender_id, u"أنا آسف لا يمكنني الرد على الرسائل حاليا، يتم إصلاحي وتطويري.")
