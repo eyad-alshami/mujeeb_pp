@@ -5,11 +5,11 @@ This page informs you of our policies regarding the collection, use and disclosu
 By using Mujeeb, you agree to the following terms:
 
 Information Collection And Use:
-We may use and/or store your public information on Facebook to enhance your experience while using this bot.
-We do not collect/store any personal information that is not publicly available on your Facebook profile.
-We collect and store the conversation history to further improve our services.
+We only use and/or store your public information on Facebook to enhance your experience while using our service; this includes: your profile's App scoped ID, your public page ID, your public full name, the necessary tokens to operate our service (page and user access tokens), and the data that you explicitly input in our website as part of using our service.
+We may collect and store page feed events to further improve our services.
 We may use third-party services to analyse or host our data.
 While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security.
+You can request the deletion of your data that Mujeeb stores by sending an email specifying your user ID to info@mujeeb.ai
 
 Changes To This Privacy Policy:
 We reserve the right to update or change our Privacy Policy at any time and you should check this Privacy Policy periodically. Your continued use of the Service after we post any modifications to the Privacy Policy on this page will constitute your acknowledgement of the modifications and your consent to abide and be bound by the modified Privacy Policy.
